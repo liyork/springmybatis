@@ -27,6 +27,8 @@ public interface BookDAO {
     public List<Book> getBookByIds(@Param("ids") List<Integer> ids);
 
     public List<Book> getBookByTitle(@Param("bookTitle") String bookTitle);
+
+    public List<Book> getBookByCondition(Book book);
     /**
      * 添加图书
      */

@@ -90,6 +90,15 @@ public class TestBookService {
     }
 
     @Test
+    public void testGetBookByCondition() {
+        Book book = new Book();
+        //book.setId(1);//注释掉则第二个if的and被省略
+        book.setName("HeadFirst Java");
+        List<Book> bookByCondition = bookservice.getBookByCondition(book);
+        System.out.println(JSON.toJSONString(bookByCondition));
+    }
+
+    @Test
     public void testAddDouble() {
         //因为书名相同，添加第二本会失败，用于测试事务
         Book entity1 = new Book( "Hibernate 第八版", 78.1, new Date());

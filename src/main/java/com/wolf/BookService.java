@@ -37,6 +37,10 @@ public class BookService{
         return bookdao.getBookByTitle(bookTitle);
     }
 
+    public List<Book> getBookByCondition(Book book){
+        return bookdao.getBookByCondition(book);
+    }
+
     public int add(Book entity) throws Exception {
         if(entity.getName()==null||entity.getName().equals("")){
             throw new Exception("书名必须不为空");

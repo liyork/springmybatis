@@ -17,7 +17,7 @@ public class Book extends BaseModel {
     /**
      * 价格
      */
-    private double price;
+    private Double price;
     /**
      * 出版日期
      */

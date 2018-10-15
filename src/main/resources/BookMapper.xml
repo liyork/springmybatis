@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.wolf.mapper.BookDAO">
+
+    <sql id="selectSql">
+        `id`,bookTitle,price
+    </sql>
+
+    <sql id="whereSQL">
+        <where>
+            <if test="bookTitle != null and bookTitle != ''">
+                and lower(bookTitle) like lower(concat('%', trim(#{bookTitle}),'%' ))
+            </if>
+        </where>
+    </sql>
+
+    <!--继承,命名空间+resultMapID-->
+    <resultMap id="bookMap" type="com.wolf.entities.Book" extends="com.wolf.mapper.BaseModelNS.BaseModel">
+        <!--<result property="name" column="t_name" javaType="String"/>-->
+        <result column="bookTitle" property="name"/>
+    </resultMap>
+
+    <!--id应该是接口中的方法，结果类型如没有配置别名则应该使用applicationContext.xml中配置的typeAliasesPackage -->
+    <select id="getAllBooks" resultType="Book">
+        select <include refid="selectSql"/> from books
+    </select>
+    <!--有返回值的要标明 -->
+    <select id="getBookById" resultMap="bookMap">
+        select id,bookTitle,price,publishDate from books where id=#{qqq}
+    </select>
+
+    <select id="getBookByIds" resultType="Book">
+        select id,bookTitle,price,publishDate from books where id in
+        <foreach item="item" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--要是没有<if test这个，那么dao不用添加@Param("bookTitle"),ognl对于string参数的特殊处理可能还得查看源码才知道-->
+    <select id="getBookByTitle" resultType="Book">
+        select id,bookTitle,price,publishDate from books
+        <where>
+            <if test="bookTitle != null and bookTitle != ''">
+                 lower(bookTitle) like lower(concat('%', trim(#{bookTitle}),'%' ))
+            </if>
+        </where>
+    </select>
+
+    <!-- 无返回值不用标明。suffixOverrides去除多余逗号-->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into books
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        bookTitle,price,publishDate
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{bookTitle},#{price},#{publishDate},
+        </trim>
+
+    </insert>
+    <!-- 删除 -->
+    <delete id="delete">
+        delete from books where id=#{id}
+    </delete>
+    <!-- 更新 -->
+    <update id="update">
+        update books set bookTitle=#{bookTitle},price=#{price},publishDate=#{publishDate}
+        where id=#{id}
+    </update>
+</mapper>

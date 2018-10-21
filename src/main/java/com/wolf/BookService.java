@@ -29,6 +29,10 @@ public class BookService{
         return bookdao.getBookById(id);
     }
 
+    public Book getBookByIdAndName(int id,String name){
+        return bookdao.getBookByIdAndName(id,name);
+    }
+
     public List<Book> getBookByIds(List<Integer> ids){
         return bookdao.getBookByIds(ids);
     }

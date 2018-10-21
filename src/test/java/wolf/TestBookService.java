@@ -77,6 +77,13 @@ public class TestBookService {
     }
 
     @Test
+    public void testGetBookByIdAndName() {
+        Book book = bookservice.getBookByIdAndName(1,"Java编程思想");
+        assertNotNull(book);
+        System.out.println(JSON.toJSONString(book));
+    }
+
+    @Test
     public void testGetBookByIds() {
         List<Integer> ids = new ArrayList<>();
         ids.add(1);

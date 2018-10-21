@@ -30,6 +30,10 @@
         select id,bookTitle,price,publishDate from books where id=#{qqq}
     </select>
 
+    <select id="getBookByIdAndName" resultMap="bookMap">
+        select id,bookTitle,price,publishDate from books where id=#{id} and bookTitle=#{name}
+    </select>
+
     <select id="getBookByIds" resultType="Book">
         select id,bookTitle,price,publishDate from books where id in
         <foreach item="item" collection="ids" open="(" separator="," close=")">

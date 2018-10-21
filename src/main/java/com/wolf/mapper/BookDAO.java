@@ -24,6 +24,10 @@ public interface BookDAO {
      */
     public Book getBookById(@Param("qqq") int id);
 
+    //多参数时需要@Param，否则mybatis不认识
+    //Caused by: org.apache.ibatis.binding.BindingException: Parameter 'id' not found. Available parameters are [arg1, arg0, param1, param2]
+    public Book getBookByIdAndName(@Param("id") int id,@Param("name") String name);
+
     public List<Book> getBookByIds(@Param("ids") List<Integer> ids);
 
     public List<Book> getBookByTitle(@Param("bookTitle") String bookTitle);
